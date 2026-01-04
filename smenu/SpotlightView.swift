@@ -4,16 +4,12 @@ import Combine
 
 struct SpotlightView: View {
     let window: NSPanel?
+    let database: [String]
+    
     @State private var searchText = ""
     @State private var contentSize: CGSize = CGSize(width: 600, height: 10)
-    @State private var selectedIndex: Int = -1
-    
-    // Your prebuilt array of strings
-    let database = [
-        "System Settings", "Terminal", "Activity Monitor", "Xcode",
-        "Safari", "Notes", "Messages", "Mail", "Photos", "Calendar",
-        "Music", "Podcasts", "TV", "News", "Stocks", "Weather"
-    ]
+    @State private var selectedIndex: Int = 0
+    @FocusState private var isFocused: Bool
     
     // Filter logic
     var results: [String] {
@@ -33,6 +29,7 @@ struct SpotlightView: View {
                     .textFieldStyle(.plain)
                     .font(.system(size: 22, weight: .light))
                     .frame(height: 40)
+                    .focused($isFocused)
             }
             .padding(10)
             
@@ -55,9 +52,9 @@ struct SpotlightView: View {
                         .background(selectedIndex == index ? Color.white.opacity(0.2) : Color.clear)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            print("Selected: \(item)")
-                            searchText = ""
-                            selectedIndex = -1
+                            print(item)
+                            fflush(stdout)
+                            NSApplication.shared.terminate(nil)
                         }
                     }
                 }
@@ -79,18 +76,23 @@ struct SpotlightView: View {
         }
         .onKeyPress { press in
             if press.key == .upArrow {
-                selectedIndex = max(-1, selectedIndex - 1)
+                selectedIndex = max(0, selectedIndex - 1)
                 return .handled
             } else if press.key == .downArrow {
                 selectedIndex = min(results.count - 1, selectedIndex + 1)
                 return .handled
             } else if press.key == .return && selectedIndex >= 0 {
-                print("Selected: \(results[selectedIndex])")
-                searchText = ""
-                selectedIndex = -1
+                print(results[selectedIndex])
+                fflush(stdout)
+                NSApplication.shared.terminate(nil)
                 return .handled
             }
             return .ignored
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                isFocused = true
+            }
         }
     }
     
