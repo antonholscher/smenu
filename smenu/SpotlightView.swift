@@ -21,8 +21,10 @@ struct SpotlightView: View {
             // In search mode, just return the input text
             return searchText.isEmpty ? [] : [searchText]
         } else {
-            // In filter mode, filter the database
-            if searchText.isEmpty { return [] }
+            // In filter mode, show all if empty, otherwise filter
+            if searchText.isEmpty {
+                return database
+            }
             return database.filter { $0.localizedCaseInsensitiveContains(searchText) }
         }
     }
@@ -59,8 +61,6 @@ struct SpotlightView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(Array(results.enumerated()), id: \.offset) { index, item in
                         HStack {
-                            Image(systemName: "app.fill")
-                                .foregroundColor(.blue)
                             Text(item)
                                 .font(.title3)
                             Spacer()
