@@ -58,25 +58,29 @@ struct SpotlightView: View {
                 Divider()
                     .background(Color.white.opacity(0.2))
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(Array(results.enumerated()), id: \.offset) { index, item in
-                        HStack {
-                            Text(item)
-                                .font(.title3)
-                            Spacer()
-                        }
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 20)
-                        .background(selectedIndex == index ? Color.white.opacity(0.2) : Color.clear)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            print(item)
-                            fflush(stdout)
-                            NSApplication.shared.terminate(nil)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(Array(results.enumerated()), id: \.offset) { index, item in
+                            HStack {
+                                Text(item)
+                                    .font(.title3)
+                                    .lineLimit(1)
+                                Spacer()
+                            }
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 20)
+                            .background(selectedIndex == index ? Color.white.opacity(0.2) : Color.clear)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                print(item)
+                                fflush(stdout)
+                                NSApplication.shared.terminate(nil)
+                            }
                         }
                     }
+                    .padding(.vertical, 10)
                 }
-                .padding(.vertical, 10)
+                .frame(maxHeight: 20 * 40) // 20 items * 40pt each
             }
         }
         .frame(width: 600)
