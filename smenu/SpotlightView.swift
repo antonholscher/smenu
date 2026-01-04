@@ -7,6 +7,7 @@ struct SpotlightView: View {
     let database: [String]
     let isSearchMode: Bool
     let isPasswordMode: Bool
+    let placeholderText: String
     
     @State private var searchText = ""
     @State private var contentSize: CGSize = CGSize(width: 600, height: 10)
@@ -34,17 +35,17 @@ struct SpotlightView: View {
                     .foregroundColor(.secondary)
                 
                 if isPasswordMode {
-                    SecureField("hello", text: $searchText)
-                        .textFieldStyle(.plain)
-                        .font(.system(size: 22, weight: .light))
-                        .frame(height: 40)
-                        .focused($isFocused)
+                    SecureField(placeholderText, text: $searchText)
+                            .textFieldStyle(.plain)
+                            .font(.system(size: 22, weight: .light))
+                            .frame(height: 40)
+                            .focused($isFocused)
                 } else {
-                    TextField("Spotlight Search", text: $searchText)
-                        .textFieldStyle(.plain)
-                        .font(.system(size: 22, weight: .light))
-                        .frame(height: 40)
-                        .focused($isFocused)
+                    SecureField(placeholderText, text: $searchText)
+                            .textFieldStyle(.plain)
+                            .font(.system(size: 22, weight: .light))
+                            .frame(height: 40)
+                            .focused($isFocused)
                 }
             }
             .padding(10)

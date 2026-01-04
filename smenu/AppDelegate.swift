@@ -5,10 +5,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var panel: NSPanel!
     var database: [String] = []
     var isPasswordMode: Bool = false
+    var placeholderText: String = "Spotlight Search"
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Check for -e flag
         isPasswordMode = CommandLine.arguments.contains("-e")
+        
+        // Check for -t flag with custom placeholder
+        if let tIndex = CommandLine.arguments.firstIndex(of: "-t"),
+           tIndex + 1 < CommandLine.arguments.count {
+            placeholderText = CommandLine.arguments[tIndex + 1]
+        }
         
         // Read from stdin
         database = readStdin()
@@ -34,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         // Set the SwiftUI content
-        let contentView = SpotlightView(window: panel, database: database, isSearchMode: database.isEmpty, isPasswordMode: isPasswordMode)
+        let contentView = SpotlightView(window: panel, database: database, isSearchMode: database.isEmpty, isPasswordMode: isPasswordMode, placeholderText: placeholderText)
         panel.contentView = NSHostingView(rootView: contentView)
         
         // Center and show
