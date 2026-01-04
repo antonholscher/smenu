@@ -5,6 +5,7 @@ import Combine
 struct SpotlightView: View {
     let window: NSPanel?
     let database: [String]
+    let isSearchMode: Bool
     
     @State private var searchText = ""
     @State private var contentSize: CGSize = CGSize(width: 600, height: 10)
@@ -13,8 +14,14 @@ struct SpotlightView: View {
     
     // Filter logic
     var results: [String] {
-        if searchText.isEmpty { return [] }
-        return database.filter { $0.localizedCaseInsensitiveContains(searchText) }
+        if isSearchMode {
+            // In search mode, just return the input text
+            return searchText.isEmpty ? [] : [searchText]
+        } else {
+            // In filter mode, filter the database
+            if searchText.isEmpty { return [] }
+            return database.filter { $0.localizedCaseInsensitiveContains(searchText) }
+        }
     }
     
     var body: some View {
@@ -34,7 +41,7 @@ struct SpotlightView: View {
             .padding(10)
             
             // Results List
-            if !results.isEmpty {
+            if !results.isEmpty && !isSearchMode {
                 Divider()
                     .background(Color.white.opacity(0.2))
                 

@@ -30,16 +30,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         // Set the SwiftUI content
-        let contentView = SpotlightView(window: panel, database: database)
+        let contentView = SpotlightView(window: panel, database: database, isSearchMode: database.isEmpty)
         panel.contentView = NSHostingView(rootView: contentView)
-
+        
         // Center and show
         panel.center()
         panel.orderFront(nil)
         panel.makeKey()
         panel.makeFirstResponder(panel.contentView)
-
     }
+
     
     private func readStdin() -> [String] {
         var lines: [String] = []
@@ -54,7 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         
-        return lines.isEmpty ? defaultDatabase() : lines
+        return lines
     }
 
     
