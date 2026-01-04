@@ -103,8 +103,10 @@ struct SpotlightView: View {
                 selectedIndex = min(results.count - 1, selectedIndex + 1)
                 return .handled
             } else if press.key == .return && selectedIndex >= 0 {
-                print(results[selectedIndex])
-                fflush(stdout)
+                if selectedIndex < results.count {
+                    print(results[selectedIndex])
+                    fflush(stdout)
+                }
                 NSApplication.shared.terminate(nil)
                 return .handled
             }
@@ -113,6 +115,12 @@ struct SpotlightView: View {
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 isFocused = true
+            }
+        }
+        .onChange(of: searchText) { oldValue, newValue in
+            // Clamp selectedIndex to valid range
+            if selectedIndex >= results.count {
+                selectedIndex = max(0, results.count - 1)
             }
         }
     }

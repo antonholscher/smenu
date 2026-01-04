@@ -5,8 +5,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var panel: NSPanel!
     var database: [String] = []
     var isPasswordMode: Bool = false
-    var placeholderText: String = "Spotlight Search"
-    var iconName: String = "magnifyingglass"
+    var placeholderText: String = "Select something"
+    var iconName: String = "bolt.fill"
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Check for -e flag
@@ -82,15 +82,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         return lines
-    }
-
-    
-    private func defaultDatabase() -> [String] {
-        [
-            "System Settings", "Terminal", "Activity Monitor", "Xcode",
-            "Safari", "Notes", "Messages", "Mail", "Photos", "Calendar",
-            "Music", "Podcasts", "TV", "News", "Stocks", "Weather"
-        ]
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
