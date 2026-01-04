@@ -6,6 +6,7 @@ struct SpotlightView: View {
     let window: NSPanel?
     let database: [String]
     let isSearchMode: Bool
+    let isPasswordMode: Bool
     
     @State private var searchText = ""
     @State private var contentSize: CGSize = CGSize(width: 600, height: 10)
@@ -32,11 +33,19 @@ struct SpotlightView: View {
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(.secondary)
                 
-                TextField("Spotlight Search", text: $searchText)
-                    .textFieldStyle(.plain)
-                    .font(.system(size: 22, weight: .light))
-                    .frame(height: 40)
-                    .focused($isFocused)
+                if isPasswordMode {
+                    SecureField("hello", text: $searchText)
+                        .textFieldStyle(.plain)
+                        .font(.system(size: 22, weight: .light))
+                        .frame(height: 40)
+                        .focused($isFocused)
+                } else {
+                    TextField("Spotlight Search", text: $searchText)
+                        .textFieldStyle(.plain)
+                        .font(.system(size: 22, weight: .light))
+                        .frame(height: 40)
+                        .focused($isFocused)
+                }
             }
             .padding(10)
             

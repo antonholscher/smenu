@@ -4,8 +4,12 @@ import SwiftUI
 class AppDelegate: NSObject, NSApplicationDelegate {
     var panel: NSPanel!
     var database: [String] = []
+    var isPasswordMode: Bool = false
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Check for -e flag
+        isPasswordMode = CommandLine.arguments.contains("-e")
+        
         // Read from stdin
         database = readStdin()
         
@@ -30,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         // Set the SwiftUI content
-        let contentView = SpotlightView(window: panel, database: database, isSearchMode: database.isEmpty)
+        let contentView = SpotlightView(window: panel, database: database, isSearchMode: database.isEmpty, isPasswordMode: isPasswordMode)
         panel.contentView = NSHostingView(rootView: contentView)
         
         // Center and show
