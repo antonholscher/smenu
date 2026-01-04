@@ -56,6 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         panel.orderFront(nil)
         panel.makeKey()
         panel.makeFirstResponder(panel.contentView)
+        panel.delegate = self
     }
 
     
@@ -83,5 +84,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "Music", "Podcasts", "TV", "News", "Stocks", "Weather"
         ]
     }
+    
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true
+    }
 }
 
+
+extension AppDelegate: NSWindowDelegate {
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        NSApplication.shared.terminate(NSNumber(value: -1))
+        return false
+    }
+}

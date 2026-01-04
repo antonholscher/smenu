@@ -42,7 +42,7 @@ struct SpotlightView: View {
                             .frame(height: 40)
                             .focused($isFocused)
                 } else {
-                    SecureField(placeholderText, text: $searchText)
+                    TextField(placeholderText, text: $searchText)
                             .textFieldStyle(.plain)
                             .font(.system(size: 22, weight: .light))
                             .frame(height: 40)
@@ -93,7 +93,10 @@ struct SpotlightView: View {
             updateWindowSize()
         }
         .onKeyPress { press in
-            if press.key == .upArrow {
+            if press.key == .escape {
+                NSApplication.shared.terminate(NSNumber(value: -1))
+                return .handled
+            } else if press.key == .upArrow {
                 selectedIndex = max(0, selectedIndex - 1)
                 return .handled
             } else if press.key == .downArrow {
