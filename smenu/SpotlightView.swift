@@ -8,6 +8,7 @@ struct SpotlightView: View {
     let isSearchMode: Bool
     let isPasswordMode: Bool
     let placeholderText: String
+    let iconName: String
     
     @State private var searchText = ""
     @State private var contentSize: CGSize = CGSize(width: 600, height: 10)
@@ -30,7 +31,7 @@ struct SpotlightView: View {
         VStack(spacing: 0) {
             // Input Field
             HStack(spacing: 12) {
-                Image(systemName: "magnifyingglass")
+                Image(systemName: iconName)
                     .font(.system(size: 20, weight: .medium))
                     .foregroundColor(.secondary)
                 

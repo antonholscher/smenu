@@ -6,6 +6,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var database: [String] = []
     var isPasswordMode: Bool = false
     var placeholderText: String = "Spotlight Search"
+    var iconName: String = "magnifyingglass"
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         // Check for -e flag
@@ -15,6 +16,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let tIndex = CommandLine.arguments.firstIndex(of: "-t"),
            tIndex + 1 < CommandLine.arguments.count {
             placeholderText = CommandLine.arguments[tIndex + 1]
+        }
+        
+        // Check for -i flag with custom placeholder
+        if let iIndex = CommandLine.arguments.firstIndex(of: "-i"),
+           iIndex + 1 < CommandLine.arguments.count {
+            iconName = CommandLine.arguments[iIndex + 1]
         }
         
         // Read from stdin
@@ -41,7 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         
         // Set the SwiftUI content
-        let contentView = SpotlightView(window: panel, database: database, isSearchMode: database.isEmpty, isPasswordMode: isPasswordMode, placeholderText: placeholderText)
+        let contentView = SpotlightView(window: panel, database: database, isSearchMode: database.isEmpty, isPasswordMode: isPasswordMode, placeholderText: placeholderText, iconName: iconName)
         panel.contentView = NSHostingView(rootView: contentView)
         
         // Center and show
