@@ -83,10 +83,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         return lines
     }
-    
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return true
-    }
 }
 
 
